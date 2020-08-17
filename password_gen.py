@@ -23,12 +23,12 @@ class PassGen:
       [sg.Output(size=(32, 5))],
       [sg.Button('Generate')]
     ]
-    # Declarar janela
-    self.janela = sg.Window('Password Generator', layout)
+    # declarate window
+    self.window = sg.Window('Password Generator', layout)
 
   def Start(self):
     while True:
-      event, values = self.janela.read()
+      event, values = self.window.read()
       if event == sg.WINDOW_CLOSED:
         break
       if event == 'Generate':
