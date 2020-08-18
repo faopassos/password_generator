@@ -11,15 +11,14 @@ class PassGen:
     # Layout
     char_list = list(range(30))
 
-    sg.theme('Black')
+    sg.theme('DarkBrown')
     # playsound('music.mp3')
     layout = [
-      [sg.Text('Site/Software', size=(11, 1)),
-      sg.Input(key='site', size=(20, 1))],
-      [sg.Text('email/user', size=(11, 1)),
-      sg.Input(key='user', size=(20, 1))],
       [sg.Text('Number of character'), sg.Combo(values=char_list,
         key='total_chars', default_value=8, size=(3, 1))],
+      [sg.Text('Default: Upper, Lower, Numbers and Symbols')],
+      [sg.Checkbox('Exclude symbols', key='no_symbols'),
+        sg.Checkbox('Exclude numbers', key='no_numbers')],  
       [sg.Output(size=(32, 5))],
       [sg.Button('Generate')]
     ]
@@ -34,20 +33,22 @@ class PassGen:
       if event == 'Generate':
         new_password = self.generate_pass(values)
         print(new_password)
-        self.save_password(new_password, values)
 
   def generate_pass(self, values):
-    char_list = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%&*'
+    no_symbols = values['no_symbols']
+    no_numbers = values['no_numbers']
+    if no_symbols == False and no_numbers == False:
+      char_list = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%&*'
+    elif no_symbols == True and no_numbers == False:
+      char_list = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'
+    elif no_symbols == False and no_numbers == True:
+      char_list = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%&*'
+    else:
+      char_list = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+
     chars = random.choices(char_list, k=(values['total_chars']))
     new_pass = ''.join(chars)
     return new_pass
-
-  def save_password(self, new_password, values):
-    with open('passwords.txt', 'a', newline='') as file:
-      file.write(
-        f"site: {values['site']}, user: {values['user']}, new password: {new_password}\n")
-
-    print('File saved')
 
 gen = PassGen()
 
