@@ -2,16 +2,17 @@
 
 import random
 import PySimpleGUI as sg
-# from playsound import playsound
+from vlc import MediaPlayer
 
 
 class PassGen:
   def __init__(self):
+    # Music
+    music = MediaPlayer('music.mp3')
+    music.play()
     # Layout
-    char_list = list(range(30))
-
     sg.theme('DarkBrown')
-    # playsound('music.mp3')
+    char_list = list(range(30))
     layout = [
       [sg.Text('Number of character'), sg.Combo(values=char_list,
         key='total_chars', default_value=8, size=(3, 1))],
@@ -27,6 +28,7 @@ class PassGen:
   def Start(self):
     while True:
       event, values = self.window.read()
+      
       if event == sg.WINDOW_CLOSED:
         break
       if event == 'Generate':
@@ -36,6 +38,7 @@ class PassGen:
   def generate_pass(self, values):
     no_symbols = values['no_symbols']
     no_numbers = values['no_numbers']
+
     if no_symbols == False and no_numbers == False:
       char_list = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%&*'
     elif no_symbols == True and no_numbers == False:
@@ -47,6 +50,7 @@ class PassGen:
 
     chars = random.choices(char_list, k=(values['total_chars']))
     new_pass = ''.join(chars)
+
     return new_pass
 
 gen = PassGen()
