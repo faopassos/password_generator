@@ -1,0 +1,2 @@
+pysimplegui==4.28.0
+playsound==1.2.2

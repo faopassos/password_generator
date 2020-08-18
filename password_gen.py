@@ -1,6 +1,5 @@
 #!/bin/python3
 
-import os
 import random
 import PySimpleGUI as sg
 # from playsound import playsound
